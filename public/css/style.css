@@ -1,0 +1,283 @@
+/* Header */
+#top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+}
+
+#top-header .siteName a {
+    font-size: 24px; /* Bigger text for site name */
+    color: rgb(14, 14, 14);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#top-header #tools a {
+    font-size: 14px; /* Smaller text for tools */
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+#top-header #tools a:hover {
+    color: #ffcc00; /* Optional: Change color on hover */
+}
+
+/* Navigation Menu */
+nav {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffcc00;
+}
+
+/* Delorean Features and Reviews */
+#detail-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+#delorean-upgrade, #delorean-reviews {
+    flex: 1;
+    margin: 10px;
+}
+
+#delorean-upgrade .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2-column grid */
+    gap: 20px; /* Space between grid items */
+}
+
+.card-upgrade, .card-review {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-upgrade img, .card-review img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.card-upgrade a, .card-review h3 {
+    display: block;
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #333;
+    text-decoration: none;
+}
+
+.card-upgrade a:hover, .card-review h3:hover {
+    color: #ffcc00;
+}
+
+.card-review p {
+    font-size: 1.5em;
+    color: #ffcc00;
+}
+
+.section-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* Footer */
+footer {
+    color: white;
+    text-align: center;
+    bottom: 0;
+    background-color: #333;
+}
+
+footer .copyright {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Body */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('/images/site/checkerboard.jpg');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+#wrapper {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 1em;
+    background-color: white;
+}
+
+@media only screen and (min-width: 768px) {
+    #wrapper {
+        border-radius: 10px;
+        margin-top: 1rem;
+        padding: 1vw;
+        width: 75vw;
+        max-width: 1200px;
+        background-color: white;
+    }
+}
+
+/* Hero Content Image */
+#hero-image {
+    position: relative;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+#hero-image img {
+    width: 100%;
+    height: auto;
+}
+
+#hero-content {
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.3); /* More transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    color: rgb(44, 44, 243); /* Ensure text is visible on transparent background */
+    text-align: justify;
+    width: 80%; /* Adjust width for better responsiveness */
+    max-width: 350px; /* Limit the maximum width */
+}
+
+#hero-content h2 {
+    margin: 0;
+    font-size: 2em;
+}
+
+#hero-content p {
+    margin: 10px 0;
+}
+
+#hero-content button {
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%;
+}
+
+#hero-content button:hover {
+    background-color: #e6b800;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Adjust font size for mobile */
+    }
+
+    #top-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #top-header .siteName a {
+        font-size: 20px; /* Adjust font size for mobile */
+    }
+
+    #top-header #tools a {
+        font-size: 12px; /* Adjust font size for mobile */
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    #hero-image img {
+        width: 100%; /* Full width on mobile */
+    }
+
+    #hero-content {
+        width: 90%; /* Increase width on smaller screens */
+        padding: 15px; /* Adjust padding for smaller screens */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #hero-content h2 {
+        font-size: 1.5em; /* Adjust font size for smaller screens */
+    }
+
+    #hero-content p {
+        font-size: 1em; /* Adjust font size for smaller screens */
+    }
+
+    #hero-content button {
+        padding: 10px 15px; /* Adjust button padding for smaller screens */
+        font-size: 0.9em; /* Adjust button font size for smaller screens */
+    }
+
+    #detail-page {
+        flex-direction: column; /* Stack sections vertically */
+        padding: 10px;
+    }
+
+    #delorean-upgrade .card-container {
+        grid-template-columns: 1fr; /* 1-column grid on mobile */
+    }
+
+    .section-title {
+        font-size: 1.5em; /* Adjust title size for mobile */
+    }
+
+    .card-upgrade, .card-review {
+        padding: 15px; /* Adjust padding for mobile */
+    }
+}
