@@ -193,6 +193,27 @@ body {
     font-size: 1.2em;
     color: #333;
   }
+
+  /* Error Page */
+  .error-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+  }
+  .error-container h1 {
+    font-size: 2em;
+    color: #333;
+  }
+  .error-container p {
+    font-size: 1.2em;
+    color: #666;
+  }
+  .error-container img {
+    width: 200px;
+    margin-top: 20px;
+  }
   
 /* Responsive Design */
 
