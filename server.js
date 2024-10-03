@@ -4,7 +4,7 @@ const env = require("dotenv").config();
 const app = express();
 const path = require("path");
 const baseController = require("./controllers/baseController");
-
+const inventoryRoute = require("./routes/inventoryRoute");
 // Middleware to serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -16,6 +16,8 @@ app.use(require("./routes/static"));
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
+
+app.use("/inv", inventoryRoute);
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
