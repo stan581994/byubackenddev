@@ -75,4 +75,43 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+/* **************************************
+ * Build the inventory details view HTML
+ * ************************************ */
+Util.buildInventoryDetails = async function (data) {
+  let grid;
+  if (data.length > 0) {
+    const vehicle = data[0];
+    grid = '<div id="inv-details">';
+
+    // Image section
+    grid += `
+      <div class="image-container">
+        <img src="${vehicle.inv_image}" alt="${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" />
+      </div>`;
+
+    // Details section
+    grid += `
+      <div class="details-container">
+        <h1>${vehicle.inv_year} ${vehicle.inv_make} ${
+      vehicle.inv_model
+    }'s Details</h1>
+        <hr>
+        <p class="price"><strong>Price:</strong> $${new Intl.NumberFormat(
+          "en-US"
+        ).format(vehicle.inv_price)}</p>
+        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+        <p><strong>Miles:</strong> ${new Intl.NumberFormat("en-US").format(
+          vehicle.inv_miles
+        )}</p>
+      </div>`;
+
+    grid += "</div>";
+  } else {
+    grid =
+      '<p class="notice">Sorry, no details available for this vehicle.</p>';
+  }
+  return grid;
+};
 module.exports = Util;

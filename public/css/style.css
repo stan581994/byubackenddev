@@ -1,4 +1,4 @@
-/* Header */
+/*  ------------------ Header  ------------------ */
 #top-header {
     display: flex;
     justify-content: space-between;
@@ -24,7 +24,7 @@
     color: #ffcc00; /* Optional: Change color on hover */
 }
 
-/* Navigation Menu */
+/*  ------------------Navigation Menu------------------ */
 nav {
     background-color: #333;
     padding: 10px 0;
@@ -112,7 +112,7 @@ nav ul li a:hover {
     color: #333;
 }
 
-/* Footer */
+/*  ------------------Footer ------------------ */
 footer {
     color: white;
     text-align: center;
@@ -125,7 +125,7 @@ footer .copyright {
     font-size: 14px;
 }
 
-/* Body */
+/*  ------------------ Body  ------------------ */
 *,
 *:before,
 *:after {
@@ -148,53 +148,151 @@ body {
     background-color: white;
 }
 
-/* CSS for the classification grid */
+/*   ------------------ CSS for the classification grid  ------------------ */
+/* Container for the grid */
 #inv-display {
-    list-style-type: none;
-    padding: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
   }
   
+  /* Each card */
   #inv-display li {
+    padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 300px;
-    transition: transform 0.2s;
-  }
-  
-  #inv-display li:hover {
-    transform: translateY(-5px);
-  }
-  
-  #inv-display img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  
-  .namePrice {
-    padding: 15px;
+    width: 350px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
   }
   
-  .namePrice h2 {
-    font-size: 1.5em;
-    margin: 0;
+  /* Image within the card */
+  #inv-display li img {
+    width: 100%;
+    height: 200px; 
+    object-fit: contain; /* Ensures the image fits within the specified dimensions */
   }
   
-  .namePrice span {
-    display: block;
-    margin-top: 10px;
+  /* Name and price container */
+  .namePrice {
+    padding: 10px;
+    width: 100%;
+  }
+  
+  /* Title within the card */
+  #inv-display li h2 {
     font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  /* Price within the card */
+  #inv-display li span {
+    font-size: 1.1em;
     color: #333;
   }
+  
+  /* Notice message */
+  .notice {
+    font-size: 1.2em;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+  }
+  /* ------------------ Inventory Detail Styles  ------------------ */
+  #inv-details {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
-  /* Error Page */
+.title-header{
+    
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Image container */
+.image-container {
+    flex: 3;
+    text-align: center;
+    margin-right: 20px; /* Adds space between details and image */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Details container */
+.details-container {
+    flex: 2; /* Takes up more space than the image */
+    padding: 15px;
+}
+
+/* Header styles */
+.details-container h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Price styling */
+.price {
+    border: 2px solid #007BFF; /* Border color */
+    background-color: #e7f1ff; /* Light blue background */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 18px; /* Font size */
+    color: #0056b3; /* Darker blue text */
+    margin: 10px 0; /* Margin for spacing */
+    text-align: center; /* Center the text */
+}
+
+/* Paragraph styles */
+.details-container p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin: 5px 0;
+}
+
+.details-container hr{
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+/* Strong text styles */
+.details-container strong {
+    color: #000;
+}
+
+/* Notice message */
+.notice {
+    text-align: center;
+    font-size: 18px;
+    color: #d9534f; /* Bootstrap danger color */
+    margin: 20px 0;
+}
+
+  /* ------------------ Error Page  ------------------ */
   .error-container {
     background-color: #fff;
     padding: 20px;
@@ -215,20 +313,8 @@ body {
     margin-top: 20px;
   }
   
-/* Responsive Design */
 
-@media only screen and (min-width: 768px) {
-    #wrapper {
-        border-radius: 10px;
-        margin-top: 1rem;
-        padding: 1vw;
-        width: 75vw;
-        max-width: 1200px;
-        background-color: white;
-    }
-}
-
-/* Hero Content Image */
+/*  ------------------ Hero Content Image  ------------------ */
 #hero-image {
     position: relative;
     text-align: center;
@@ -280,6 +366,8 @@ body {
     background-color: #e6b800;
 }
 
+
+/*  ------------------ Responsive Design   ------------------ */
 /* Mobile View */
 @media (max-width: 768px) {
     body {
@@ -348,5 +436,32 @@ body {
 
     .card-upgrade, .card-review {
         padding: 15px; /* Adjust padding for mobile */
+    }
+
+    #wrapper {
+        border-radius: 10px;
+        margin-top: 1rem;
+        padding: 1vw;
+        width: 75vw;
+        max-width: 1200px;
+        background-color: white;
+    }
+
+    #inv-details {
+        flex-direction: column; /* Stack items vertically on small screens */
+        padding: 15px;
+    }
+
+    .image-container {
+        margin-left: 0; /* Remove left margin on small screens */
+        margin-bottom: 20px; /* Add bottom margin */
+    }
+
+    .details-container h1 {
+        font-size: 20px;
+    }
+
+    .details-container p {
+        font-size: 14px;
     }
 }
