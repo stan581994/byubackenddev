@@ -20,6 +20,12 @@ app.get("/", (req, res) => {
 
 app.use("/inv", inventoryRoute);
 
+app.get("/trigger-error", (req, res, next) => {
+  const error = new Error("Intentional Server Error");
+  error.status = 500;
+  next(error);
+});
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({ status: 404, message: "Sorry, we appear to have lost that page." });
@@ -36,12 +42,23 @@ app.listen(port, () => {
  * Express Error Handler
  * Place after all other middleware
  *************************/
+
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav();
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
-  res.render("errors/error", {
-    title: err.status || "Server Error",
-    message: err.message,
-    nav,
-  });
+  if (err.status === 500) {
+    res.status(err.status || 500);
+    res.render("errors/500_error", {
+      title: err.status || "500 Server Error",
+      message: err.message,
+      nav,
+    });
+  } else {
+    res.status(err.status || 404);
+    res.render("errors/error", {
+      title: err.status || "404 Server Error",
+      message: err.message,
+      nav,
+    });
+  }
 });
