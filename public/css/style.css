@@ -179,7 +179,7 @@ body {
   #inv-display li img {
     width: 100%;
     height: 200px; 
-    object-fit: contain; /* Ensures the image fits within the specified dimensions */
+    object-fit: contain; 
   }
   
   /* Name and price container */
@@ -242,7 +242,7 @@ body {
 
 /* Details container */
 .details-container {
-    flex: 2; /* Takes up more space than the image */
+    flex: 2;
     padding: 15px;
 }
 
@@ -256,14 +256,14 @@ body {
 
 /* Price styling */
 .price {
-    border: 2px solid #007BFF; /* Border color */
-    background-color: #e7f1ff; /* Light blue background */
-    padding: 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 18px; /* Font size */
-    color: #0056b3; /* Darker blue text */
-    margin: 10px 0; /* Margin for spacing */
-    text-align: center; /* Center the text */
+    border: 2px solid #007BFF; 
+    background-color: #e7f1ff;
+    padding: 10px; 
+    border-radius: 5px; 
+    font-size: 18px; 
+    color: #0056b3; 
+    margin: 10px 0; 
+    text-align: center;
 }
 
 /* Paragraph styles */
@@ -288,7 +288,7 @@ body {
 .notice {
     text-align: center;
     font-size: 18px;
-    color: #d9534f; /* Bootstrap danger color */
+    color: #d9534f; 
     margin: 20px 0;
 }
 
