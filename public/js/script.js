@@ -14,6 +14,7 @@ document
         passwordField.setAttribute("type", "text");
         togglePasswordImg.setAttribute("src", "/images/buttons/hide_eye.png");
         togglePasswordImg.setAttribute("alt", "Hide Password");
+        console.log("hello");
         retypePasswordContainer.classList.add("hidden");
       } else {
         passwordField.setAttribute("type", "password");
