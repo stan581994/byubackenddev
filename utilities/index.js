@@ -114,4 +114,12 @@ Util.buildInventoryDetails = async function (data) {
   }
   return grid;
 };
+
+// Middleware to handle errors in async route handlers
+Util.handleErrors = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch((err) => {
+    res.status(500).send("Internal Server Error");
+  });
+};
+
 module.exports = Util;
