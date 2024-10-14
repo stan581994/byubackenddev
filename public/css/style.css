@@ -478,7 +478,7 @@ body {
     position: relative;
 }
 
-#password {
+#password_field{
     padding-right: 40px; 
 }
 

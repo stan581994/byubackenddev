@@ -8,6 +8,7 @@ const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const session = require("express-session");
 const pool = require("./database/");
+const bodyParser = require("body-parser");
 
 /* ***********************
  * Middleware
@@ -42,6 +43,9 @@ app.use(require("./routes/static"));
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  *
