@@ -1,0 +1,16 @@
+<% if (typeof notice !== 'undefined') { %>
+  <p class="flash-message"><%= notice %></p>
+<% } %>
+
+<% if (typeof errors !== 'undefined') { %>
+  <div class="error-messages">
+      <% errors.forEach(function(error) { %>
+          <p><%= error.msg %></p>
+      <% }); %>
+  </div>
+<% } %>
+
+
+<%# messages() %>
+
+<%- grid %>

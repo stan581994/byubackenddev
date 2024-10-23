@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
  * Routes
  *************************/
 
-app.use("/inv", inventoryRoute);
+app.use("/inv", require("./routes/inventoryRoute"));
 app.get("/trigger-error", (req, res, next) => {
   const error = new Error("Intentional Server Error");
   error.status = 500;

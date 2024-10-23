@@ -115,6 +115,24 @@ Util.buildInventoryDetails = async function (data) {
   return grid;
 };
 
+/* **************************************
+ * Build the Management Inventory details view HTML
+ * ************************************ */
+Util.buildManagementGrid = async function () {
+  let grid = `
+    <div class="management-container">
+      <h1>Inventory Management</h1>
+      <hr>
+      <!-- Links to add new classification and inventory -->
+      <ul>
+          <li><a href="/inv/add-classification">Add New Classification</a></li>
+          <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+      </ul>
+    </div>
+  `;
+  return grid;
+};
+
 // Middleware to handle errors in async route handlers
 Util.handleErrors = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch((err) => {

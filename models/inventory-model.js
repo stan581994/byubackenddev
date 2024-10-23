@@ -24,8 +24,6 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-module.exports = { getClassification, getInventoryByClassificationId };
-
 /* ***************************
  *  Get an inventory item and its detail by detail_id
  * ************************** */
