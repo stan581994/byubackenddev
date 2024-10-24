@@ -1,8 +1,5 @@
-<!-- Flash message section -->
-<% if (typeof flashMessage !== 'undefined') { %>
-    <div class="flash-message">
-        <%= flashMessage %>
-    </div>
+<% if (notice) { %>
+  <p class="flash-message"><%= notice %></p>
 <% } %>
 
 <!-- Management Grid -->

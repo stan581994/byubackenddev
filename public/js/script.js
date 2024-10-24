@@ -71,3 +71,31 @@ document
       event.preventDefault(); // Prevent form submission
     }
   });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const makeInput = document.getElementById("make");
+  const modelInput = document.getElementById("model");
+
+  form.addEventListener("submit", function (event) {
+    let isValid = true;
+
+    if (makeInput.value.length < 3) {
+      makeInput.style.color = "red";
+      isValid = false;
+    } else {
+      makeInput.style.color = "green";
+    }
+
+    if (modelInput.value.length < 3) {
+      modelInput.style.color = "red";
+      isValid = false;
+    } else {
+      modelInput.style.color = "green";
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+});

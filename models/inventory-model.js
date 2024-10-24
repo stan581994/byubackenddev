@@ -1,4 +1,5 @@
 const pool = require("../database");
+const { getNav } = require("../utilities");
 
 async function getClassification() {
   return await pool.query(
@@ -40,8 +41,49 @@ async function getDetailInventoryByInventoryId(detail_id) {
   }
 }
 
+/* ***************************
+ *  Add Vehicle
+ * ************************** */
+
+async function addVehicle(
+  inv_make,
+  inv_model,
+  inv_year,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_miles,
+  inv_color,
+  classification_id
+) {
+  try {
+    const sql = `INSERT INTO public.inventory 
+    (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`;
+    const values = [
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    ];
+    return await pool.query(sql, values);
+  } catch (error) {
+    console.error("Error executing query:", error);
+    return error.message;
+  }
+}
+
 module.exports = {
+  addVehicle,
   getClassification,
+  getNav,
   getInventoryByClassificationId,
   getDetailInventoryByInventoryId,
 };

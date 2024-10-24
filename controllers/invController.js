@@ -11,7 +11,7 @@ async function buildByClassificationId(req, res, next) {
   const grid = await utilities.buildClassificationGrid(data);
   let nav = await utilities.getNav();
   const className = data[0].classification_name;
-  res.render("./inventory/classification", {
+  res.render("./inv/classification", {
     title: className + " vehicles",
     nav,
     grid,
@@ -29,7 +29,7 @@ async function buildByDetailId(req, res, next) {
   let nav = await utilities.getNav();
   const className =
     data[0].inv_year + " " + data[0].inv_make + " " + data[0].inv_model;
-  res.render("./inventory/classification", {
+  res.render("./inv/classification", {
     title: className,
     nav,
     grid,
@@ -47,7 +47,7 @@ async function buildByManagement(req, res, next) {
     title: "Management View",
     nav,
     grid,
-    notice: req.flash("notice"),
+    notice: null,
   });
 }
 
@@ -71,7 +71,6 @@ async function addClassification(req, res, next) {
   try {
     const grid = await utilities.buildManagementGrid();
     const { classification_name } = req.body;
-    console.log("Received classification_name:", classification_name);
 
     const result = await classificationModel.addClassification(
       classification_name
@@ -80,15 +79,15 @@ async function addClassification(req, res, next) {
     if (result) {
       let nav = await utilities.getNav();
       req.flash("notice", "Classification added successfully");
-      res.status(201).render("./inv/classification", {
-        title: "Add Classification",
+      res.status(201).render("./inv/management", {
+        title: "Vehicle Management",
         nav,
         grid,
         notice: req.flash("notice")[0],
       });
     } else {
       req.flash("notice", "Classification was not added");
-      res.status(501).render("./inv/classification", {
+      res.status(501).render("./inv/add-classification", {
         nav,
         grid,
         notice: req.flash("notice")[0],
@@ -97,7 +96,7 @@ async function addClassification(req, res, next) {
   } catch (error) {
     console.error("Error adding classification:", error);
     req.flash("notice", "An error occurred while adding the classification");
-    res.status(500).render("./inv/classification", {
+    res.status(500).render("./inv/add-classification", {
       nav: await utilities.getNav(),
       grid: await utilities.buildManagementGrid(),
       notice: req.flash("notice")[0],
@@ -105,10 +104,90 @@ async function addClassification(req, res, next) {
   }
 }
 
+async function renderAddClassification(req, res, next) {
+  let nav = await utilities.getNav();
+  res.render("./inv/add-classification", {
+    title: "Add Classification",
+    nav,
+  });
+}
+
+async function renderAddVehicle(req, res, next) {
+  let nav = await utilities.getNav();
+  let classificationDropDown = await utilities.buildClassificationList();
+  res.render("./inv/add-vehicle", {
+    title: "Add Vehicle",
+    errors: null,
+    classificationDropDown,
+    nav,
+  });
+}
+
+async function addVehicle(req, res, next) {
+  let nav = await utilities.getNav();
+  let grid = await utilities.buildManagementGrid();
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+
+  try {
+    const vehResult = await invModel.addVehicle(
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    );
+
+    if (vehResult) {
+      req.flash("notice", "Vehicle added successfully");
+      res.status(201).render("./inv/management", {
+        title: "Add Classification",
+        nav,
+        grid,
+        notice: req.flash("notice")[0],
+      });
+    } else {
+      req.flash("notice", "Failed to add vehicle");
+      res.status(500).render("./inv/add-vehicle", {
+        title: "Add Vehicle",
+        nav,
+        errors: null,
+        notice: req.flash("notice")[0],
+      });
+    }
+  } catch (error) {
+    console.error("Error adding vehicle:", error);
+    req.flash("notice", "Failed to add vehicle due to an internal error");
+    res.status(500).render("./inv/add-vehicle", {
+      title: "Add Vehicle",
+      nav,
+      errors: null,
+      notice: req.flash("notice")[0],
+    });
+  }
+}
+
 module.exports = {
+  addVehicle,
   addClassification,
   buildByClassificationId,
   buildByDetailId,
   buildByManagement,
   renderAddClassification,
+  renderAddVehicle,
 };
