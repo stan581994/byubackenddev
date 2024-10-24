@@ -58,3 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("One or more elements not found in the DOM.");
   }
 });
+
+document
+  .getElementById("classificationForm")
+  .addEventListener("submit", function (event) {
+    const classificationName =
+      document.getElementById("classificationName").value;
+    const pattern = /^[a-zA-Z0-9]+$/;
+
+    if (!pattern.test(classificationName)) {
+      alert("Classification name cannot contain spaces or special characters.");
+      event.preventDefault(); // Prevent form submission
+    }
+  });

@@ -564,6 +564,26 @@ button:hover {
     background-color: #0056b3;
 }
 
+.flash-message {
+    background-color: #dff0d8;
+    color: #3c763d;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-messages {
+    background-color: #f2dede;
+    color: #a94442;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-messages p {
+    margin: 0;
+}
+
 
 /*  ------------------ Responsive Design   ------------------ */
 /* Mobile View */
