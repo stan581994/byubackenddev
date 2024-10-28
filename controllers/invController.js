@@ -104,14 +104,6 @@ async function addClassification(req, res, next) {
   }
 }
 
-async function renderAddClassification(req, res, next) {
-  let nav = await utilities.getNav();
-  res.render("./inv/add-classification", {
-    title: "Add Classification",
-    nav,
-  });
-}
-
 async function renderAddVehicle(req, res, next) {
   let nav = await utilities.getNav();
   let classificationDropDown = await utilities.buildClassificationList();

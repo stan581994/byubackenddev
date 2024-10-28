@@ -413,7 +413,7 @@ body {
 }
 
 /* Styles for flash message */
-.flash-message {
+.flash-message-error {
     color: red;
     margin-bottom: 15px;
     font-weight: bold;
@@ -526,7 +526,7 @@ body {
 }
 
 
-form {
+.addNewClassification form {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -534,13 +534,13 @@ form {
     gap: 10px; /* Add some spacing between elements */
 }
 
-label {
+.addNewClassification label {
   
     font-weight: bold;
     color: #333;
 }
 
-input[type="text"] {
+.addNewClassification input[type="text"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -548,7 +548,7 @@ input[type="text"] {
     width: 50%;
 }
 
-button {
+.addNewClassification button {
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -560,7 +560,7 @@ button {
     width: 300px;
 }
 
-button:hover {
+.addNewClassification button:hover {
     background-color: #0056b3;
 }
 
