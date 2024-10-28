@@ -5,7 +5,10 @@ const validation = require("../utilities/classification-validation");
 const vehicleValidation = require("../utilities/vehicle-validation");
 const utilities = require("../utilities");
 
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get(
+  "/type/:classificationId",
+  utilities.handleErrors(invController.buildByClassificationId)
+);
 router.get("/detail/:detailId", invController.buildByDetailId);
 router.get("/", invController.buildByManagement);
 router.get("/add-classification", invController.renderAddClassification);
@@ -17,6 +20,10 @@ router.get(
 router.get(
   "/edit/:inv_id",
   utilities.handleErrors(invController.editInventoryForm)
+);
+router.get(
+  "/delete/:inv_id",
+  utilities.handleErrors(invController.deleteInventoryForm)
 );
 
 router.post(
@@ -34,5 +41,10 @@ router.post(
 );
 
 router.post("/update/", utilities.handleErrors(invController.updateInventory));
+
+router.post(
+  "/delete/",
+  utilities.handleErrors(invController.deleteInventoryItem)
+);
 
 module.exports = router;
