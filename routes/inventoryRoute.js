@@ -10,6 +10,14 @@ router.get("/detail/:detailId", invController.buildByDetailId);
 router.get("/", invController.buildByManagement);
 router.get("/add-classification", invController.renderAddClassification);
 router.get("/add-vehicle", invController.renderAddVehicle);
+router.get(
+  "/getInventory/:classification_id",
+  utilities.handleErrors(invController.getInventoryJSON)
+);
+router.get(
+  "/edit/:inv_id",
+  utilities.handleErrors(invController.editInventoryForm)
+);
 
 router.post(
   "/add-classification",
@@ -24,4 +32,7 @@ router.post(
   vehicleValidation.checkVehicleData,
   utilities.handleErrors(invController.addVehicle)
 );
+
+router.post("/update/", utilities.handleErrors(invController.updateInventory));
+
 module.exports = router;

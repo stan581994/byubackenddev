@@ -84,8 +84,6 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
-  console.log("account_email", account_email);
-  console.log("account_password", account_password);
   const accountData = await accountModel.getAccountByEmail(account_email);
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");
@@ -98,8 +96,6 @@ async function accountLogin(req, res) {
     return;
   }
   try {
-    console.log("accountData", accountData);
-    console.log("accountData.account_password", accountData.account_password);
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password;
       const accessToken = jwt.sign(
@@ -116,7 +112,12 @@ async function accountLogin(req, res) {
           maxAge: 3600 * 1000,
         });
       }
-      return res.redirect("/account/");
+      res.status(200).render("account/accountMgmt", {
+        title: "Account Management View",
+        nav,
+        account_firstname: accountData.account_firstname,
+        notice: null,
+      });
     } else {
       req.flash("notice", "Please check your credentials and try again.");
       res.status(400).render("account/login", {

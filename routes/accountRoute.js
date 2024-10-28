@@ -12,6 +12,7 @@ router.get(
 );
 router.get(
   "/",
+  utilities.checkLogin,
   utilities.handleErrors(accountController.buildByAccountManagement)
 );
 

@@ -43,10 +43,12 @@ async function buildByDetailId(req, res, next) {
 async function buildByManagement(req, res, next) {
   const grid = await utilities.buildManagementGrid();
   let nav = await utilities.getNav();
+  const classificationSelect = await utilities.buildClassificationList();
   res.render("./inv/management", {
     title: "Management View",
     nav,
     grid,
+    classificationSelect,
     notice: null,
   });
 }
@@ -174,6 +176,131 @@ async function addVehicle(req, res, next) {
   }
 }
 
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+async function getInventoryJSON(req, res, next) {
+  const classification_id = parseInt(req.params.classification_id);
+  const invData = await invModel.getInventoryByClassificationId(
+    classification_id
+  );
+  if (invData[0].inv_id) {
+    return res.json(invData);
+  } else {
+    next(new Error("No data returned"));
+  }
+}
+
+async function editInventoryForm(req, res, next) {
+  const inv_id = req.params.inv_id;
+  try {
+    const invData = await invModel.getInventoryById(inv_id);
+    if (invData.length === 0) {
+      return next(new Error("No data returned"));
+    }
+
+    const classificationSelect = await utilities.buildClassificationList(
+      invData[0].classification_id
+    );
+    const nav = await utilities.getNav();
+
+    console.log("=====" + invData[0].inv_description); // Log the inv_id for debugging
+
+    res.render("./inv/edit-inventory", {
+      nav,
+      classificationSelect: classificationSelect,
+      errors: null,
+      title: "Edit " + invData[0].inv_make + " " + invData[0].inv_model,
+      invData: invData[0], // Pass the first item in the array
+      inv_id: invData[0].inv_id,
+      inv_make: invData[0].inv_make,
+      inv_model: invData[0].inv_model,
+      inv_year: invData[0].inv_year,
+      inv_description: invData[0].inv_description,
+      inv_image: invData[0].inv_image,
+      inv_thumbnail: invData[0].inv_thumbnail,
+      inv_price: invData[0].inv_price,
+      inv_miles: invData[0].inv_miles,
+      inv_color: invData[0].inv_color,
+      classification_id: invData[0].classification_id,
+    });
+  } catch (error) {
+    console.error("Error fetching inventory item:", error);
+    next(error);
+  }
+}
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+async function updateInventory(req, res, next) {
+  let nav = await utilities.getNav();
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+  const updateResult = await invModel.updateInventory(
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  );
+
+  if (updateResult) {
+    const itemName = updateResult.inv_make + " " + updateResult.inv_model;
+    const nav = await utilities.getNav();
+    const grid = await utilities.buildManagementGrid();
+    const classificationSelect = await utilities.buildClassificationList();
+    req.flash("notice", `The ${itemName} was successfully updated.`);
+    res.status(201).render("./inv/management", {
+      title: "Vehicle Management",
+      nav,
+      grid,
+      classificationSelect,
+      notice: req.flash("notice")[0],
+    });
+  } else {
+    const classificationSelect = await utilities.buildClassificationList(
+      classification_id
+    );
+    const itemName = `${inv_make} ${inv_model}`;
+    req.flash("notice", "Sorry, the insert failed.");
+    res.status(501).render("./inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationSelect: classificationSelect,
+      errors: null,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    });
+  }
+}
+
 module.exports = {
   addVehicle,
   addClassification,
@@ -182,4 +309,7 @@ module.exports = {
   buildByManagement,
   renderAddClassification,
   renderAddVehicle,
+  getInventoryJSON,
+  editInventoryForm,
+  updateInventory,
 };

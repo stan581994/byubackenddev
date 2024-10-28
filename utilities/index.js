@@ -186,4 +186,21 @@ Util.checkJWTToken = (req, res, next) => {
   }
 };
 
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = async (req, res, next) => {
+  if (res.locals.loggedin) {
+    next();
+  } else {
+    let nav = await Util.getNav();
+    req.flash("notice", "Please log in.");
+    res.render("account/login", {
+      title: "Login",
+      nav,
+      notice: req.flash("notice")[0],
+    });
+  }
+};
+
 module.exports = Util;
