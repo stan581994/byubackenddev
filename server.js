@@ -64,25 +64,6 @@ app.get("/trigger-error", (req, res, next) => {
   next(error);
 });
 app.use("/account", require("./routes/accountRoute"));
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav();
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
-  if (err.status === 500) {
-    res.status(err.status || 500);
-    res.render("errors/500_error", {
-      title: err.status || "500 Server Error",
-      message: err.message,
-      nav,
-    });
-  } else {
-    res.status(err.status || 404);
-    res.render("errors/error", {
-      title: err.status || "404 Server Error",
-      message: err.message,
-      nav,
-    });
-  }
-});
 
 /* ***********************
  * Express Error Handler
