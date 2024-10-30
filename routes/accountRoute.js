@@ -45,4 +45,10 @@ router.post(
   utilities.handleErrors(accountController.updateAccount)
 );
 
+router.post(
+  "/editpassword",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updateAccountPassword)
+);
+
 module.exports = router;

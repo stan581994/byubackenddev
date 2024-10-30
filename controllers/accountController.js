@@ -185,13 +185,38 @@ async function updateAccount(req, res, next) {
       notice: "Account updated successfully.",
     });
   } else {
-    res.status(500).render("account/edit/account_id", {
+    res.status(500).render(`account/edit/${account_id}`, {
       title: "Account Management",
       nav,
       account_id: account_id,
       account_firstname: account_firstname,
       account_lastname: account_lastname,
       account_email: account_email,
+      notice: "Account update failed.",
+    });
+  }
+}
+
+async function updateAccountPassword(req, res, next) {
+  const { account_id, account_password } = req.body;
+  const hashedPassword = await bcrypt.hashSync(account_password, 10);
+  const updateResult = await accountModel.updateAccountPassword(
+    account_id,
+    hashedPassword
+  );
+  if (updateResult) {
+    let nav = await utilities.getNav();
+    res.status(201).render("account/accountMgmt", {
+      title: "Account Management",
+      account_id: res.locals.account_id,
+      nav,
+      notice: "Account password updated successfully.",
+    });
+  } else {
+    res.status(500).render(`account/edit/${account_id}`, {
+      title: "Account Management",
+      account_id: res.locals.account_id,
+      nav,
       notice: "Account update failed.",
     });
   }
@@ -205,5 +230,6 @@ module.exports = {
   accountLogin,
   buildByAccountManagement,
   updateAccount,
+  updateAccountPassword,
   logout,
 };

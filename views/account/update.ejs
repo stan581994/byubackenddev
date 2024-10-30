@@ -7,6 +7,7 @@
   <% } %>
   
 <div class="registration-container">
+    <h2> Account Details: </h2>
     <form action="/account/edit" method="post" id="registration-form" novalidate>
         <div>
             <label for="first-name">First Name:</label>
@@ -27,6 +28,9 @@
 
 <div class="registration-container">
     <form action="/account/editpassword" method="post" id="registration-form" novalidate>
+        <h2> Update Password </h2>
+        <p>Password must be atleast 12 characters and contains atleast 1 number, 1 capital letter and 1 special character</p>
+        <p>* note your original password will be changed</p>
         <label for="password">Password:</label>
             <div class="password-container">
                 <input type="password" id="password_field" name="account_password" required>

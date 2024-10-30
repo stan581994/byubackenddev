@@ -1,6 +1,6 @@
-    <% if (typeof notice !== 'undefined') { %>
-      <p class="flash-message-error"><%= notice %></p>
-    <% } %>
+<% if (typeof notice !== 'undefined') { %>
+    <p class="flash-message-error"><%= notice %></p>
+<% } %>
   
 <div class="account_mangmt_container">
     <h1><%= title %></h1>
@@ -8,8 +8,8 @@
     <p>You are now Logged in!</p>
     <a href="/account/edit/<%= account_id %>">Edit Account Information</a>
 
-</div>
-<div class="inventory_mgmt_container">
+
+
     <% if (locals.account_type === 'Employee' || locals.account_type === 'Admin') { %>
         <h2>Inventory Management</h2>
         <a href="/inv">Manage Inventory</a>
