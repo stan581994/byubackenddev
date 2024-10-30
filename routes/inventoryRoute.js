@@ -10,24 +10,35 @@ router.get(
   utilities.handleErrors(invController.buildByClassificationId)
 );
 router.get("/detail/:detailId", invController.buildByDetailId);
-router.get("/", invController.buildByManagement);
-router.get("/add-classification", invController.renderAddClassification);
-router.get("/add-vehicle", invController.renderAddVehicle);
+router.get("/", utilities.checkAdmin, invController.buildByManagement);
+router.get(
+  "/add-classification",
+  utilities.checkAdmin,
+  invController.renderAddClassification
+);
+router.get(
+  "/add-vehicle",
+  utilities.checkAdmin,
+  invController.renderAddVehicle
+);
 router.get(
   "/getInventory/:classification_id",
   utilities.handleErrors(invController.getInventoryJSON)
 );
 router.get(
   "/edit/:inv_id",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.editInventoryForm)
 );
 router.get(
   "/delete/:inv_id",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventoryForm)
 );
 
 router.post(
   "/add-classification",
+  utilities.checkAdmin,
   validation.classificationValidationRules(),
   validation.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
@@ -35,15 +46,21 @@ router.post(
 
 router.post(
   "/add-vehicle",
+  utilities.checkAdmin,
   vehicleValidation.vehicleValidationRules(),
   vehicleValidation.checkVehicleData,
   utilities.handleErrors(invController.addVehicle)
 );
 
-router.post("/update/", utilities.handleErrors(invController.updateInventory));
+router.post(
+  "/update/",
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.updateInventory)
+);
 
 router.post(
   "/delete/",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventoryItem)
 );
 

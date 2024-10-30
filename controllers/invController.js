@@ -2,36 +2,21 @@ const invModel = require("../models/inventory-model");
 const classificationModel = require("../models/classification-model");
 const utilities = require("../utilities/");
 
-/*  Build inventory by classification view
+/* ***************************
+ *  Build inventory by classification view
  * ************************** */
 async function buildByClassificationId(req, res, next) {
   const classification_id = req.params.classificationId;
-  try {
-    const data = await invModel.getInventoryByClassificationId(
-      classification_id
-    );
+  const data = await invModel.getInventoryByClassificationId(classification_id);
 
-    if (data.length === 0) {
-      let nav = await utilities.getNav();
-      return res.render("./inv/classification", {
-        title: "No vehicles found",
-        nav,
-        grid: "<p>No vehicles added in this classification.</p>",
-      });
-    }
-
-    const grid = await utilities.buildClassificationGrid(data);
-    let nav = await utilities.getNav();
-    const className = data[0].classification_name;
-    res.render("./inv/classification", {
-      title: className + " vehicles",
-      nav,
-      grid,
-    });
-  } catch (error) {
-    console.error("Error fetching inventory by classification:", error);
-    res.status(500).send("Internal Server Error");
-  }
+  const grid = await utilities.buildClassificationGrid(data);
+  let nav = await utilities.getNav();
+  const className = data[0].classification_name;
+  res.render("./inv/classification", {
+    title: className + " vehicles",
+    nav,
+    grid,
+  });
 }
 
 /* ***************************

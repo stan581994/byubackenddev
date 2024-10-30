@@ -203,4 +203,55 @@ Util.checkLogin = async (req, res, next) => {
   }
 };
 
+Util.checkAuth = async (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        res.locals.isLoggedIn = false;
+        res.locals.account_firstname = null;
+        res.locals.account_type = null;
+        res.locals.account_id = null;
+      } else {
+        res.locals.isLoggedIn = true;
+        res.locals.account_firstname = decoded.account_firstname;
+        res.locals.account_type = decoded.account_type;
+        res.locals.account_id = decoded.account_id;
+      }
+    });
+  } else {
+    res.locals.isLoggedIn = false;
+    res.locals.account_firstname = null;
+    res.locals.account_type = null;
+    res.locals.account_id = null;
+  }
+  next();
+};
+
+Util.checkAdmin = async (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        req.flash("notice", "Please log in to access this page.");
+        res.redirect("/account/login");
+      } else {
+        const accountType = decoded.account_type;
+        if (accountType === "Employee" || accountType === "Admin") {
+          next();
+        } else {
+          req.flash(
+            "notice",
+            "You do not have permission to access this page."
+          );
+          res.redirect("/account/login");
+        }
+      }
+    });
+  } else {
+    req.flash("notice", "Please log in to access this page.");
+    res.redirect("/account/login");
+  }
+};
+
 module.exports = Util;

@@ -22,9 +22,41 @@ async function buildRegister(req, res, next) {
   });
 }
 
-/* ****************************************
- *  Process Registration
- * *************************************** */
+async function buildEditAccount(req, res, next) {
+  const account_id = req.params.accountId;
+  try {
+    const data = await accountModel.getAccountById(account_id);
+    if (data.length === 0) {
+      let nav = await utilities.getNav();
+      return res.render("/account/", {
+        title: "Account Management",
+        nav,
+        notice: "No account found.",
+      });
+    } else {
+      let nav = await utilities.getNav();
+      return res.render("account/update", {
+        title: "Update Account",
+        account_id: data.account_id,
+        account_firstname: data.account_firstname,
+        account_lastname: data.account_lastname,
+        account_email: data.account_email,
+        nav,
+        errors: null,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  let nav = await utilities.getNav();
+  res.render("account/update", {
+    title: "Update Account",
+    nav,
+    errors: null,
+  });
+}
+
 async function registerAccount(req, res) {
   let nav = await utilities.getNav();
   const {
@@ -34,10 +66,8 @@ async function registerAccount(req, res) {
     account_password,
   } = req.body;
 
-  // Hash the password before storing
   let hashedPassword;
   try {
-    // regular password and cost (salt is generated automatically)
     hashedPassword = await bcrypt.hashSync(account_password, 10);
   } catch (error) {
     req.flash(
@@ -49,6 +79,7 @@ async function registerAccount(req, res) {
       nav,
       errors: null,
     });
+    return;
   }
 
   const regResult = await accountModel.registerAccount(
@@ -61,7 +92,7 @@ async function registerAccount(req, res) {
   if (regResult) {
     req.flash(
       "notice",
-      `Congratulations! You\'re registered ${account_firstname}. Please login`
+      `Congratulations! You're registered ${account_firstname}. Please login`
     );
     res.status(201).render("account/login", {
       title: "Login",
@@ -70,7 +101,7 @@ async function registerAccount(req, res) {
     });
   } else {
     req.flash("notice", "Registration failed. Please try again.");
-    res.status(501).render("/account/register", {
+    res.status(501).render("account/register", {
       title: "Register",
       nav,
       notice: req.flash("notice")[0],
@@ -78,9 +109,6 @@ async function registerAccount(req, res) {
   }
 }
 
-/* ****************************************
- *  Process login request
- * ************************************ */
 async function accountLogin(req, res) {
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
@@ -101,23 +129,10 @@ async function accountLogin(req, res) {
       const accessToken = jwt.sign(
         accountData,
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: 3600 * 1000 }
+        { expiresIn: "1h" }
       );
-      if (process.env.NODE_ENV === "development") {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
-      } else {
-        res.cookie("jwt", accessToken, {
-          httpOnly: true,
-          secure: true,
-          maxAge: 3600 * 1000,
-        });
-      }
-      res.status(200).render("account/accountMgmt", {
-        title: "Account Management View",
-        nav,
-        account_firstname: accountData.account_firstname,
-        notice: null,
-      });
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      res.redirect("/account/");
     } else {
       req.flash("notice", "Please check your credentials and try again.");
       res.status(400).render("account/login", {
@@ -132,22 +147,63 @@ async function accountLogin(req, res) {
   }
 }
 
-/* ****************************************
- *  Process login request
- * ************************************ */
 async function buildByAccountManagement(req, res, next) {
   let nav = await utilities.getNav();
-  res.render("./account/accountMgmt", {
+  res.render("account/accountMgmt", {
     title: "Account Management View",
+    account_id: res.locals.account_id,
     nav,
     notice: null,
   });
 }
 
+async function logout(req, res) {
+  res.clearCookie("jwt");
+  res.redirect("/account/login");
+}
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+
+async function updateAccount(req, res, next) {
+  const { account_id, account_firstname, account_lastname, account_email } =
+    req.body;
+  const updateResult = await accountModel.updateAccount(
+    account_id,
+    account_email,
+    account_firstname,
+    account_lastname
+  );
+  if (updateResult) {
+    let nav = await utilities.getNav();
+    res.locals.account_firstname = account_firstname;
+    res.status(201).render("account/accountMgmt", {
+      title: "Account Management",
+      account_id: res.locals.account_id,
+      nav,
+      notice: "Account updated successfully.",
+    });
+  } else {
+    res.status(500).render("account/edit/account_id", {
+      title: "Account Management",
+      nav,
+      account_id: account_id,
+      account_firstname: account_firstname,
+      account_lastname: account_lastname,
+      account_email: account_email,
+      notice: "Account update failed.",
+    });
+  }
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
+  buildEditAccount,
   registerAccount,
   accountLogin,
   buildByAccountManagement,
+  updateAccount,
+  logout,
 };

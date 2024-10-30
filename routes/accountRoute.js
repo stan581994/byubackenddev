@@ -16,6 +16,14 @@ router.get(
   utilities.handleErrors(accountController.buildByAccountManagement)
 );
 
+router.get(
+  "/edit/:accountId",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildEditAccount)
+);
+
+router.get("/logout", utilities.handleErrors(accountController.logout));
+
 router.post(
   "/register",
   regValidation.registrationRules(),
@@ -29,6 +37,12 @@ router.post(
   regValidation.loginRules(),
   regValidation.checkLoginData,
   utilities.handleErrors(accountController.accountLogin)
+);
+
+router.post(
+  "/edit",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updateAccount)
 );
 
 module.exports = router;
