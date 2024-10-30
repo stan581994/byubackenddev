@@ -695,6 +695,47 @@ input.invalid {
     color: red;
   }
 
+
+/*  ------------------  Vehicle management  ------------------ */
+.vehicle-management-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+.vehicle-management-container h2 {
+    color: #333;
+}
+.vehicle-management-container p {
+    color: #666;
+}
+.vehicle-management-container select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.vehicle-management-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.vehicle-management-container table, th, td {
+    border: 1px solid #ddd;
+}
+.vehicle-management-container th, .vehicle-management-container td {
+    padding: 10px;
+    text-align: left;
+}
+.vehicle-management-container th {
+    background-color: #f2f2f2;
+}
+
 /*  ------------------ Responsive Design   ------------------ */
 /* Mobile View */
 @media (max-width: 768px) {

@@ -9,17 +9,24 @@ router.get(
   "/type/:classificationId",
   utilities.handleErrors(invController.buildByClassificationId)
 );
-router.get("/detail/:detailId", invController.buildByDetailId);
-router.get("/", utilities.checkAdmin, invController.buildByManagement);
+router.get(
+  "/detail/:detailId",
+  utilities.handleErrors(invController.buildByDetailId)
+);
+router.get(
+  "/",
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildByManagement)
+);
 router.get(
   "/add-classification",
   utilities.checkAdmin,
-  invController.renderAddClassification
+  utilities.handleErrors(invController.renderAddClassification)
 );
 router.get(
   "/add-vehicle",
   utilities.checkAdmin,
-  invController.renderAddVehicle
+  utilities.handleErrors(invController.renderAddVehicle)
 );
 router.get(
   "/getInventory/:classification_id",

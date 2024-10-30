@@ -6,17 +6,36 @@ const utilities = require("../utilities/");
  *  Build inventory by classification view
  * ************************** */
 async function buildByClassificationId(req, res, next) {
-  const classification_id = req.params.classificationId;
-  const data = await invModel.getInventoryByClassificationId(classification_id);
+  try {
+    const classification_id = req.params.classificationId;
+    const data = await invModel.getInventoryByClassificationId(
+      classification_id
+    );
+    let nav = await utilities.getNav();
 
-  const grid = await utilities.buildClassificationGrid(data);
-  let nav = await utilities.getNav();
-  const className = data[0].classification_name;
-  res.render("./inv/classification", {
-    title: className + " vehicles",
-    nav,
-    grid,
-  });
+    if (data && data.length > 0) {
+      const grid = await utilities.buildClassificationGrid(data);
+      const className = data[0].classification_name;
+      res.render("./inv/classification", {
+        title: className + " vehicles",
+        nav,
+        grid,
+      });
+    } else {
+      res.render("./inv/classification", {
+        title: "No Vehicles Found",
+        nav,
+        grid: "<h2>No vehicles found</h2>",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).render("error", {
+      title: "Server Error",
+      message: "An unexpected error occurred. Please try again later.",
+      error,
+    });
+  }
 }
 
 /* ***************************
@@ -25,7 +44,6 @@ async function buildByClassificationId(req, res, next) {
 async function buildByDetailId(req, res, next) {
   const detail_id = req.params.detailId;
   const data = await invModel.getDetailInventoryByInventoryId(detail_id);
-  console.log(data);
   const grid = await utilities.buildInventoryDetails(data);
   let nav = await utilities.getNav();
   const className =

@@ -2,7 +2,9 @@
   <p class="flash-message"><%= notice %></p>
 <% } %>
 
-<!-- Management Grid -->
+<div class="vehicle-management-container">
+
+  <!-- Management Grid -->
 <%- grid %> 
 
 <h2>Manage Inventory</h2>
@@ -11,4 +13,7 @@
 
 <table id="inventoryDisplay"></table>
 <noscript>JavaScript is required to display the inventory.</noscript>
+
+</div>
+
 <script src="../../js/inventory.js"></script>

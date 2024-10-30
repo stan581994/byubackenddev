@@ -64,12 +64,6 @@ app.get("/trigger-error", (req, res, next) => {
   next(error);
 });
 app.use("/account", require("./routes/accountRoute"));
-
-/* ***********************
- * Express Error Handler
- * Place after all other middleware
- *************************/
-
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav();
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
@@ -89,6 +83,11 @@ app.use(async (err, req, res, next) => {
     });
   }
 });
+
+/* ***********************
+ * Express Error Handler
+ * Place after all other middleware
+ *************************/
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
