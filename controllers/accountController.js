@@ -41,6 +41,7 @@ async function buildEditAccount(req, res, next) {
         account_firstname: data.account_firstname,
         account_lastname: data.account_lastname,
         account_email: data.account_email,
+        account_address: data.address,
         nav,
         errors: null,
       });
@@ -64,6 +65,7 @@ async function registerAccount(req, res) {
     account_lastname,
     account_email,
     account_password,
+    address,
   } = req.body;
 
   let hashedPassword;
@@ -86,7 +88,8 @@ async function registerAccount(req, res) {
     account_firstname,
     account_lastname,
     account_email,
-    hashedPassword
+    hashedPassword,
+    address
   );
 
   if (regResult) {
@@ -167,13 +170,19 @@ async function logout(req, res) {
  * ************************** */
 
 async function updateAccount(req, res, next) {
-  const { account_id, account_firstname, account_lastname, account_email } =
-    req.body;
+  const {
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+    address,
+  } = req.body;
   const updateResult = await accountModel.updateAccount(
     account_id,
     account_email,
     account_firstname,
-    account_lastname
+    account_lastname,
+    address
   );
   if (updateResult) {
     let nav = await utilities.getNav();

@@ -256,3 +256,8 @@ UPDATE INVENTORY
 SET inv_image = REPLACE(inv_image,'/images','/images/vehicles'),
     inv_thumbnail = REPLACE(inv_thumbnail,'/images','/images/vehicles');
 
+
+
+-- ADD New column Address in Account Table
+ALTER TABLE public.account
+ADD COLUMN address TEXT;

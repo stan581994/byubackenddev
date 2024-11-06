@@ -8,16 +8,18 @@ async function registerAccount(
   account_firstname,
   account_lastname,
   account_email,
-  account_password
+  account_password,
+  address
 ) {
   try {
     const sql =
-      "INSERT INTO account (account_firstname, account_lastname, account_email, account_password) VALUES ($1, $2, $3, $4) RETURNING *";
+      "INSERT INTO account (account_firstname, account_lastname, account_email, account_password,address) VALUES ($1, $2, $3, $4, $5) RETURNING *";
     return await pool.query(sql, [
       account_firstname,
       account_lastname,
       account_email,
       account_password,
+      address,
     ]);
   } catch (error) {
     return error.message;
@@ -43,7 +45,7 @@ async function checkExistingEmail(account_email) {
 async function getAccountByEmail(account_email) {
   try {
     const result = await pool.query(
-      "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1",
+      "SELECT account_id, account_firstname, account_lastname, account_email, address, account_type, account_password FROM account WHERE account_email = $1",
       [account_email]
     );
     return result.rows[0];
@@ -58,7 +60,7 @@ async function getAccountByEmail(account_email) {
 async function getAccountById(account_id) {
   try {
     const result = await pool.query(
-      "SELECT account_id, account_firstname, account_lastname, account_email, account_type FROM account WHERE account_id = $1",
+      "SELECT account_id, account_firstname, account_lastname, account_email, address, account_type FROM account WHERE account_id = $1",
       [account_id]
     );
     return result.rows[0];
@@ -71,18 +73,19 @@ async function updateAccount(
   account_id,
   account_email,
   account_firstname,
-  account_lastname
+  account_lastname,
+  address
 ) {
   try {
     const sql =
-      "UPDATE account SET account_email = $1, account_firstname = $2, account_lastname = $3 WHERE account_id = $4 RETURNING *";
+      "UPDATE account SET account_email = $1, account_firstname = $2, account_lastname = $3, address = $4 WHERE account_id = $5 RETURNING *";
     const data = await pool.query(sql, [
       account_email,
       account_firstname,
       account_lastname,
+      address,
       account_id,
     ]);
-    console.log("============= model db  " + data.rows[0]);
     return data.rows[0];
   } catch (error) {
     return error.message;
